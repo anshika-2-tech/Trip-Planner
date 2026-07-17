@@ -1,6 +1,8 @@
 # ✈️ AI Trip Planner
 
-A modern full-stack travel planning web app that converts a structured trip request into a rich, interactive day-by-day itinerary — powered by the Gemini AI API.
+🔗 **Live Demo:** [https://trip-planner-six-inky.vercel.app](https://trip-planner-six-inky.vercel.app)
+
+A modern full-stack travel planning web app that converts a structured trip request into a rich, interactive day-by-day itinerary.
 
 ---
 
