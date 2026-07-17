@@ -1,40 +1,35 @@
-require("dotenv").config();
-require("./services/cronService");
 const express = require("express");
-const mongoose = require("mongoose");
 const cors = require("cors");
+const dotenv = require("dotenv");
+const generateTripRoute = require("./routes/generateTrip");
 
-const adminRoutes = require("./routes/adminRoutes");
-const patientRoutes = require("./routes/patientRoutes");
-const doctorRoutes = require("./routes/doctorRoutes");
-const appointmentRoutes = require("./routes/appointmentRoutes");
-const prescriptionRoutes = require("./routes/prescriptionRoutes");
+dotenv.config();
 
 const app = express();
+const PORT = process.env.PORT || 5000;
 
-app.use(cors());
+app.use(cors({ origin: process.env.FRONTEND_URL || "http://localhost:5173" }));
 app.use(express.json());
 
-mongoose.connect(process.env.MONGO_URI)
-.then(()=>{
-    console.log("MongoDB Connected");
-})
-.catch(err=>{
-    console.log(err);
+// Routes
+app.use("/api", generateTripRoute);
+
+// Health check
+app.get("/", (req, res) => {
+  res.json({ message: "AI Trip Planner backend is running." });
 });
 
-app.use("/api/admin",adminRoutes);
-app.use("/api/patient",patientRoutes);
-app.use("/api/doctor",doctorRoutes);
-app.use("/api/appointment",appointmentRoutes);
-app.use("/api/prescription",prescriptionRoutes);
-
-app.get("/",(req,res)=>{
-    res.send("Healthcare Appointment Manager API Running");
+// 404 handler (for unknown routes)
+app.use((req, res) => {
+  res.status(404).json({ error: "Route not found." });
 });
 
-const PORT=process.env.PORT || 5000;
+// Global error handler (catches malformed JSON body, unexpected throws, etc.)
+app.use((err, req, res, next) => {
+  console.error("Unhandled error:", err.message);
+  res.status(500).json({ error: "Something went wrong on the server." });
+});
 
-app.listen(PORT,()=>{
-    console.log(`Server Running on ${PORT}`);
+app.listen(PORT, () => {
+  console.log(`Server running on http://localhost:${PORT}`);
 });

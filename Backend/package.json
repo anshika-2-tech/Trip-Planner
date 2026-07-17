@@ -1,49 +1,19 @@
-const cron = require("node-cron");
-const Prescription = require("../models/Prescription");
-const sendEmail = require("../utils/sendEmail");
-
-// Runs every day at 9:00 AM
-cron.schedule("0 9 * * *", async () => {
-    try {
-        const prescriptions = await Prescription.find().populate({
-            path: "appointment",
-            populate: {
-                path: "patient"
-            }
-        });
-
-        for (const item of prescriptions) {
-            if (
-                item.appointment &&
-                item.appointment.patient &&
-                item.appointment.patient.email
-            ) {
-                try {
-                    await sendEmail(
-                        item.appointment.patient.email,
-                        "Medicine Reminder",
-                        `Hello ${item.appointment.patient.name},
-
-This is your daily medicine reminder.
-
-Medicines:
-${item.medicines}
-
-Take your medicines on time.
-
-Thank You
-Healthcare Appointment Manager`
-                    );
-                } catch (emailError) {
-                    console.log("Email Error:", emailError.message);
-                }
-            }
-        }
-
-        console.log("Medicine reminders sent successfully.");
-    } catch (err) {
-        console.log("Cron Error:", err.message);
-    }
-});
-
-module.exports = cron;
+{
+  "name": "ai-trip-planner-backend",
+  "version": "1.0.0",
+  "description": "Express backend for AI Trip Planner",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "nodemon server.js"
+  },
+  "dependencies": {
+    "@google/genai": "^2.12.0",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.4"
+  }
+}

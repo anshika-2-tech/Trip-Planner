@@ -1,0 +1,62 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    font-family: "Inter", sans-serif;
+    background-color: #0d0d0d;
+    color: #f1f1f1;
+  }
+}
+
+@layer utilities {
+  .glass {
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+  }
+
+  .hero-bg {
+    background: #0d0d0d;
+  }
+
+  .text-gradient {
+    background: linear-gradient(135deg, #f43f5e, #e11d48, #fb7185);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .btn-primary {
+    background: linear-gradient(135deg, #e11d48, #f43f5e);
+  }
+
+  @keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes float {
+    0%, 100% { transform: translateY(0px); }
+    50%       { transform: translateY(-12px); }
+  }
+
+  @keyframes zoomSlow {
+    from { transform: scale(1); }
+    to   { transform: scale(1.08); }
+  }
+
+  .animate-fade-in-up {
+    animation: fadeInUp 0.9s ease both;
+  }
+
+  .animate-float {
+    animation: float 4s ease-in-out infinite;
+  }
+
+  .animate-zoom-slow {
+    animation: zoomSlow 14s ease-in-out infinite alternate;
+  }
+}
