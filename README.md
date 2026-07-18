@@ -1,4 +1,4 @@
-# ✈️ AI Trip Planner
+✈️ AI Trip Planner
 
 🔗 **Live Demo:** [https://trip-planner-six-inky.vercel.app](https://trip-planner-six-inky.vercel.app)
 
@@ -22,9 +22,9 @@ A modern full-stack travel planning web app that converts a structured trip requ
 
 ### Day Card Interactions
 - Expand / collapse individual day cards
-- **Reorder days** using up/down controls
-- **Delete a day** from the itinerary (minimum one day preserved)
-- **Regenerate a single day** — re-calls the AI for just that day without touching the rest
+- Reorder days using up/down controls
+- Delete a day from the itinerary (minimum one day preserved)
+- Regenerate a single day — re-calls the AI for just that day without touching the rest
 - Per-day mini progress bar showing completed vs total activities
 - Visual completion accent (rose highlight) when all activities in a day are done
 - Shimmer loading skeleton while a day is regenerating
@@ -32,7 +32,7 @@ A modern full-stack travel planning web app that converts a structured trip requ
 ### Activity Tracking
 - Click any activity to mark it complete / incomplete
 - Completed activities show a strikethrough and fade
-- Global **trip progress bar** with percentage and count across all days
+- Global trip progress bar with percentage and count across all days
 
 ### Trip Summary Card
 - Destination headline with travel style, duration, and budget pills
@@ -48,10 +48,10 @@ A modern full-stack travel planning web app that converts a structured trip requ
 ### Navigation & Routing
 - Three-page flow: Landing → Input Form → Results
 - Browser Back button steps correctly through the history stack (Results → Form → Landing)
-- In-app **← Back** button on the Results page uses browser history
-- **New Trip** button clears the current itinerary and returns to the form
+- In-app ← Back button on the Results page uses browser history
+- New Trip button clears the current itinerary and returns to the form
 - Hard browser refresh on any page always resets to the Landing page — no stale state is restored
-- Session data is stored in `sessionStorage` only (cleared on tab close or refresh)
+- Session data is stored in sessionStorage only (cleared on tab close or refresh)
 
 ### UX & Design
 - Cinematic full-screen landing page with animated floating icons and a zoom background
@@ -67,9 +67,9 @@ A modern full-stack travel planning web app that converts a structured trip requ
 
 | Layer | Technologies |
 |---|---|
-| Frontend | React 18, Vite, Tailwind CSS, React Router v6, Axios, Lucide React |
-| Backend | Node.js, Express, Google Generative AI SDK (`@google/genai`) |
-| AI | Gemini API (`gemini-3.1-flash-lite` model) |
+| **Frontend** | React 18, Vite, Tailwind CSS, React Router v6, Axios, Lucide React |
+| **Backend** | Node.js, Express, Google Generative AI SDK (`@google/genai`) |
+| **AI** | Gemini API (`gemini-3.1-flash-lite` model) |
 
 ---
 
@@ -121,82 +121,103 @@ ai-trip-planner/
 - A Gemini API key from [Google AI Studio](https://aistudio.google.com/app/apikey)
 
 ### 1. Clone the repository
-
 ```bash
 git clone https://github.com/anshika-2-tech/Trip-Planner.git
 cd ai-trip-planner
 ```
 
 ### 2. Backend setup
-
 ```bash
 cd backend
 npm install
 ```
-
 Create a `.env` file in `backend/`:
-
 ```
 GEMINI_API_KEY=your_gemini_api_key_here
 PORT=5000
 FRONTEND_URL=http://localhost:5173
 ```
-
 Start the backend:
-
 ```bash
 npm start
 ```
 
 ### 3. Frontend setup
-
 ```bash
 cd frontend
 npm install
 ```
-
 Create a `.env` file in `frontend/`:
-
 ```
 VITE_API_URL=http://localhost:5000/api
 ```
-
 Start the frontend:
-
 ```bash
 npm run dev
 ```
-
 Open [http://localhost:5173](http://localhost:5173) in your browser.
 
 ---
 
 ## Deployment
 
-**Recommended: Vercel (frontend) + Render (backend)**
+Recommended: Vercel (frontend) + Render (backend)
 
 ### Backend → Render
-
-1. New Web Service → connect repo → root directory: `backend`
-2. Build command: `npm install`
-3. Start command: `node server.js`
-4. Add environment variables:
-   ```
-   GEMINI_API_KEY=your_key
-   PORT=5000
-   FRONTEND_URL=https://your-app.vercel.app
-   ```
+- New Web Service → connect repo → root directory: `backend`
+- Build command: `npm install`
+- Start command: `node server.js`
+- Add environment variables:
+  ```
+  GEMINI_API_KEY=your_key
+  PORT=5000
+  FRONTEND_URL=https://your-app.vercel.app
+  ```
 
 ### Frontend → Vercel
+- Import repo → root directory: `frontend`
+- Vercel auto-detects Vite — no build config needed
+- Add environment variable:
+  ```
+  VITE_API_URL=https://your-backend.onrender.com/api
+  ```
 
-1. Import repo → root directory: `frontend`
-2. Vercel auto-detects Vite — no build config needed
-3. Add environment variable:
-   ```
-   VITE_API_URL=https://your-backend.onrender.com/api
-   ```
+Deploy the backend first to get its URL, then set `VITE_API_URL` before deploying the frontend. After the frontend is live, update `FRONTEND_URL` on Render and redeploy to fix CORS.
 
-> Deploy the backend first to get its URL, then set `VITE_API_URL` before deploying the frontend. After the frontend is live, update `FRONTEND_URL` on Render and redeploy to fix CORS.
+---
+
+## AI Usage Note
+
+I built this project myself, using AI assistance along the way rather than having it hand me a finished app. Specifically:
+
+- I used **Claude (Anthropic)** as a helper throughout — for debugging real errors I ran into (CORS mismatches, port conflicts, a deprecated Gemini model causing a 429/quota error, an `EADDRINUSE` port collision, Git/GitHub push issues, and deployment misconfigurations on Render/Vercel), for reviewing my UI and suggesting improvements, and for help drafting some of the implementation.
+- Every fix and feature was something I understood, reviewed, and decided to apply — I pasted my actual errors and screenshots, worked through the cause of each issue, and directed what changes to make at each step rather than accepting anything blindly.
+- I also used AI help while deploying the app (Render for the backend, Vercel for the frontend), including setting environment variables and resolving a CORS issue after deployment.
+
+Referencing AI assistance for debugging, code suggestions, and UI feedback was part of my workflow, but the project — its structure, decisions, and the working app itself — is mine.
+
+---
+
+## Known Limitations
+
+- No authentication/user accounts — each session is independent, itineraries aren't tied to a user
+- No persistence across a page reload/browser restart by design — a hard refresh always returns to the landing page
+- No PDF export/download of the itinerary
+- Gemini occasionally returns generic or repetitive activities/highlights for less well-known destinations
+- "How to Reach" travel cost/duration estimates are AI-generated approximations, not pulled from a live transport/flight API
+- Render's free tier "cold starts" — if the backend hasn't been used in ~15 minutes, the first request after that can take 30–50 seconds while the server wakes up
+- No automated test suite (unit/integration tests) was written for this submission
+
+---
+
+## Time Spent
+
+Approximately **6 hours**, spread roughly across:
+- Core app build (form, itinerary generation, day card interactions, activity tracking): ~1.5 hrs
+- Trip details sections (accommodation, must-visit, cost breakdown, local tips, how-to-reach): ~1.5 hrs
+- UI/UX polish (background styling, responsiveness, navigation fixes): ~1.5 hrs
+- Debugging (CORS, model deprecation, quota errors, Git/deployment issues): ~1 hr
+- Deployment (Render + Vercel setup): ~0.5 hr
 
 ---
 
