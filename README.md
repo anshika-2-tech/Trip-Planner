@@ -43,7 +43,7 @@ A modern full-stack travel planning web app that converts a structured trip requ
 - **Accommodation Recommendations** — 2–3 hotels/hostels with area, price per night, and reason
 - **Cost Breakdown** — budget split across categories (Stay, Food, Transport, Activities, Miscellaneous) with percentages and ₹ amounts
 - **Local Tips** — 2–3 practical travel tips with emoji icons
-- **How to Reach** — travel route cards for flight / train / road options with duration and estimated cost
+
 
 ### Navigation & Routing
 - Three-page flow: Landing → Input Form → Results
